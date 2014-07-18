@@ -19,15 +19,19 @@ public class StorageTest {
 	@Test
 	public void testProduce() throws InterruptedException {
 		Storage store = new Storage();
-		SellingProduct sell = new SellingProduct(store);
+		SellingProduct sell = new SellingProduct(store, 400);
 		sell.setName("Seller");
-		ProducingProducts producer = new ProducingProducts(store);
+		ProducingProducts producer = new ProducingProducts(store, 500);
 		producer.setName("Producer");
 
 		sell.start();
 		producer.start();
-		sell.join();
-		producer.join(43);
+
+		Thread.sleep(1000);
+
+		producer.interrupt();
+		sell.interrupt();
+
 	}
 
 }

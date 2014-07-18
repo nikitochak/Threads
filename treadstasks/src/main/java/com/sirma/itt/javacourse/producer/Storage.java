@@ -14,14 +14,14 @@ import org.slf4j.LoggerFactory;
 public class Storage {
 	private static final Logger LOGG = LoggerFactory.getLogger(Storage.class);
 	private final int MAX_CAPACITY = 10;
-	private Stack<Object> store;
+	private Stack<Product> store;
 	private int toWhere;
 
 	/**
 	 * Initializes the list and its index.
 	 */
 	public Storage() {
-		store = new Stack<Object>();
+		store = new Stack<Product>();
 		toWhere = 0;
 	}
 
@@ -29,13 +29,15 @@ public class Storage {
 	 * Produces a Product and puts it into the storage only if the storage is
 	 * not full.
 	 * 
-	 * @throws InterruptedException
-	 *             if the thread is interrupted
 	 */
-	synchronized public void produceProduct() throws InterruptedException {
+	synchronized public void produceProduct() {
 		while (toWhere == MAX_CAPACITY) {
 			LOGG.info("Waiting to sell a product.");
-			wait();
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				LOGG.info("The storage can not produce any more.");
+			}
 		}
 
 		LOGG.info("Producing a product.");
@@ -48,13 +50,16 @@ public class Storage {
 	/**
 	 * Removes the last element in the storage if there is at least one product.
 	 * 
-	 * @throws InterruptedException
-	 *             if the thread is interrupted
 	 */
-	synchronized public void sellProduct() throws InterruptedException {
+	synchronized public void sellProduct() {
 		while (toWhere == 0) {
-			LOGG.info("Waiting to produce a product.");
-			wait();
+
+			try {
+				LOGG.info("Waiting to produce a product.");
+				wait();
+			} catch (InterruptedException e) {
+				LOGG.info("The storage is closed.");
+			}
 		}
 		LOGG.info("Selling a product.");
 		toWhere--;

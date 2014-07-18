@@ -8,6 +8,7 @@ package com.sirma.itt.javacourse.producer;
  */
 public class SellingProduct extends Thread {
 	private Storage store;
+	private int time;
 
 	/**
 	 * Initializes the storage.
@@ -15,8 +16,9 @@ public class SellingProduct extends Thread {
 	 * @param store
 	 *            the value
 	 */
-	public SellingProduct(Storage store) {
+	public SellingProduct(Storage store, int time) {
 		this.store = store;
+		this.time = time;
 	}
 
 	/*
@@ -26,10 +28,12 @@ public class SellingProduct extends Thread {
 	 */
 	public void run() {
 		try {
-			store.sellProduct();
+			while (true) {
+				store.sellProduct();
+				sleep(time);
+			}
 		} catch (InterruptedException e) {
 
-			e.printStackTrace();
 		}
 	}
 }
