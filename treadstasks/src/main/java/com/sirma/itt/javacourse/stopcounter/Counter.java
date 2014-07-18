@@ -1,5 +1,8 @@
 package com.sirma.itt.javacourse.stopcounter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * 
  * Counts until changing the value of the boolean field stopRun to false. If
@@ -11,8 +14,9 @@ package com.sirma.itt.javacourse.stopcounter;
  * 
  */
 public class Counter extends Thread {
-	private int counter;
-
+	private int counter=0;
+	public static final Logger LOGG = LoggerFactory
+			.getLogger(CounterTest.class);
 	private final int maxValue;
 	private boolean stopRun = true;
 
@@ -34,6 +38,7 @@ public class Counter extends Thread {
 	public void run() {
 		while (stopRun == true && maxValue >= counter) {
 			counter++;
+			LOGG.info(""+counter);
 		}
 
 	}

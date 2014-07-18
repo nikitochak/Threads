@@ -13,7 +13,7 @@ public class TwoCountersTest {
 
 	/**
 	 * Makes the two threads and starts them. Tests if the first finishes the
-	 * second would stop àss well.
+	 * second would stop às well.
 	 * 
 	 * @throws InterruptedException
 	 *             if the thread is interrupted
@@ -33,9 +33,6 @@ public class TwoCountersTest {
 
 		thread1.start();
 		thread2.start();
-
-		thread1.join();
-		thread2.join();
 
 	}
 
